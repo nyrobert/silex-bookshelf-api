@@ -1,7 +1,7 @@
 {
 	"autoload": {
 		"psr-4": {
-			"Demo\\": "src/"
+			"Api\\": "src/"
 		}
 	},
 	"require": {
