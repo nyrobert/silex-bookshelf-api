@@ -5,28 +5,28 @@ use Silex\Application;
 $app = new Application();
 $app['debug'] = true;
 
-$app->get('/artists', function () {
-	return 'list of artists';
+$app->get('/authors', function () {
+	return 'list of authors';
 });
 
-$app->get('/artists/{id}', function ($id) {
-	return 'get artist';
+$app->get('/authors/{id}', function ($id) {
+	return 'get author';
 });
 
-$app->get('/artists/{id}/books', function ($id) {
-	return 'list of artist\'s books';
+$app->get('/authors/{id}/books', function ($id) {
+	return 'list of authors\'s books';
 });
 
-$app->post('/artists', function () {
-	return 'create new artist';
+$app->post('/authors', function () {
+	return 'create new author';
 });
 
-$app->put('/artists/{id}', function ($id) {
-	return 'update artist';
+$app->put('/authors/{id}', function ($id) {
+	return 'update author';
 });
 
-$app->delete('/artists/{id}', function ($id) {
-	return 'delete artist';
+$app->delete('/authors/{id}', function ($id) {
+	return 'delete author';
 });
 
 $app->get('/books', function () {
