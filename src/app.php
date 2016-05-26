@@ -5,52 +5,25 @@ use Silex\Application;
 $app = new Application();
 $app['debug'] = true;
 
-$app->get('/authors', function () {
-	return 'list of authors';
-});
+$authorController = 'Api\\Controller\\Author';
+$bookController   = 'Api\\Controller\\Book';
 
-$app->get('/authors/{id}', function ($id) {
-	return 'get author';
-});
+$app->get('/authors', $authorController.'::inventory');
+$app->get('/authors/{id}', $authorController.'::get');
+$app->get('/authors/{id}/books', $authorController.'::books');
+$app->post('/authors', $authorController.'::create');
+$app->put('/authors/{id}', $authorController.'::update');
+$app->delete('/authors/{id}', $authorController.'::delete');
 
-$app->get('/authors/{id}/books', function ($id) {
-	return 'list of authors\'s books';
-});
+$app->get('/books', $bookController.'::inventory');
+$app->get('/books/{id}', $bookController.'::get');
+$app->post('/books', $bookController.'::create');
+$app->put('/books/{id}', $bookController.'::update');
+$app->put('/books/{id}/image', $bookController.'::updateImage');
+$app->delete('/books/{id}', $bookController.'::delete');
 
-$app->post('/authors', function () {
-	return 'create new author';
-});
-
-$app->put('/authors/{id}', function ($id) {
-	return 'update author';
-});
-
-$app->delete('/authors/{id}', function ($id) {
-	return 'delete author';
-});
-
-$app->get('/books', function () {
-	return 'list of books';
-});
-
-$app->get('/books/{id}', function ($id) {
-	return 'get book';
-});
-
-$app->post('/books', function () {
-	return 'create new book';
-});
-
-$app->put('/books/{id}', function ($id) {
-	return 'update book';
-});
-
-$app->put('/books/{id}/image', function ($id) {
-	return 'update book image';
-});
-
-$app->delete('/books/{id}', function ($id) {
-	return 'delete book';
-});
+$app->match('/', function () use ($app) {
+	$app->abort(400, 'HTTP method not implemented.');
+})->method('PATCH|OPTION');
 
 return $app;
