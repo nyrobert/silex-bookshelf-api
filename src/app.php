@@ -2,13 +2,15 @@
 
 use Silex\Application;
 
-$app = new Application();
-$app['debug'] = true;
-
 $authorController = 'Api\\Controller\\Author';
 $bookController   = 'Api\\Controller\\Book';
+$uuidPattern      = '[0-9a-f\-]+';
 
-$app->get('/authors', $authorController.'::inventory');
+$app = new Application();
+$app['controllers']->assert('id', $uuidPattern);
+$app['debug'] = true;
+
+$app->get('/authors', $authorController.'::listing');
 $app->get('/authors/{id}', $authorController.'::get');
 $app->get('/authors/{id}/books', $authorController.'::books');
 $app->post('/authors', $authorController.'::create');

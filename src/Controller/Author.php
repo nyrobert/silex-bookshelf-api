@@ -4,9 +4,9 @@ namespace Api\Controller;
 
 class Author
 {
-	public function inventory()
+	public function listing()
 	{
-
+		return 'list of authors';
 	}
 
 	public function get($id)
