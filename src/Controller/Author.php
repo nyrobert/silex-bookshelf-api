@@ -2,6 +2,10 @@
 
 namespace Api\Controller;
 
+use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 class Author
 {
 	public function listing()
@@ -9,16 +13,32 @@ class Author
 		return 'list of authors';
 	}
 
-	public function get($id)
+	public function get($id, Request $request, Application $app)
 	{
-		// check valid uuid
-		// get author from db
-		$data = [];
-		if (empty($data)) {
-			//$app->abort(404, 'Author not found.');
+		if (strpos($request->headers->get('Content-Type'), ';') !== false) {
+			return $app->json(
+				['success' => false], Response::HTTP_UNSUPPORTED_MEDIA_TYPE, ['Content-Type' => 'application/vnd.api+json']
+			);
 		}
 
-		return 'get author: '.$id;
+		$accept = $request->headers->get('Accept');
+		if (strpos($accept, 'application/vnd.api+json') !== false) {
+			$mediaTypes = explode(',', $accept);
+			foreach ($mediaTypes as $mediaType) {
+				if (
+					strpos($mediaType, 'application/vnd.api+json') === 0
+					&& strpos($mediaType, ';') !== false
+				) {
+					return $app->json(
+						['success' => false], Response::HTTP_NOT_ACCEPTABLE, ['Content-Type' => 'application/vnd.api+json']
+					);
+				}
+			}
+		}
+
+		return $app->json(
+			['success' => true], Response::HTTP_OK, ['Content-Type' => 'application/vnd.api+json']
+		);
 	}
 
 	public function books($id)

@@ -4,10 +4,9 @@ use Silex\Application;
 
 $authorController = 'Api\\Controller\\Author';
 $bookController   = 'Api\\Controller\\Book';
-$uuidPattern      = '[0-9a-f\-]+';
 
 $app = new Application();
-$app['controllers']->assert('id', $uuidPattern);
+$app['controllers']->assert('id', '[0-9a-f\-]+');
 $app['debug'] = true;
 
 $app->get('/authors', $authorController.'::listing');
