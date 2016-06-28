@@ -17,7 +17,9 @@ class Author
 	{
 		if (strpos($request->headers->get('Content-Type'), ';') !== false) {
 			return $app->json(
-				['success' => false], Response::HTTP_UNSUPPORTED_MEDIA_TYPE, ['Content-Type' => 'application/vnd.api+json']
+				['success' => false],
+				Response::HTTP_UNSUPPORTED_MEDIA_TYPE,
+				['Content-Type' => 'application/vnd.api+json']
 			);
 		}
 
@@ -25,19 +27,22 @@ class Author
 		if (strpos($accept, 'application/vnd.api+json') !== false) {
 			$mediaTypes = explode(',', $accept);
 			foreach ($mediaTypes as $mediaType) {
-				if (
-					strpos($mediaType, 'application/vnd.api+json') === 0
+				if (strpos($mediaType, 'application/vnd.api+json') === 0
 					&& strpos($mediaType, ';') !== false
 				) {
 					return $app->json(
-						['success' => false], Response::HTTP_NOT_ACCEPTABLE, ['Content-Type' => 'application/vnd.api+json']
+						['success' => false],
+						Response::HTTP_NOT_ACCEPTABLE,
+						['Content-Type' => 'application/vnd.api+json']
 					);
 				}
 			}
 		}
 
 		return $app->json(
-			['success' => true], Response::HTTP_OK, ['Content-Type' => 'application/vnd.api+json']
+			['success' => true],
+			Response::HTTP_OK,
+			['Content-Type' => 'application/vnd.api+json']
 		);
 	}
 
