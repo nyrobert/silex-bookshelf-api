@@ -1,20 +1,20 @@
 <?php
 
-use Silex\Application;
+use Api\App;
 
 $authorController = 'Api\\Controller\\Author';
 $bookController   = 'Api\\Controller\\Book';
 
-$app = new Application();
+$app = new \Api\App();
 $app['controllers']->assert('id', '[0-9a-f\-]+');
 $app['debug'] = true;
 
-$app->get('/authors', $authorController.'::listing');
-$app->get('/authors/{id}', $authorController.'::get');
-$app->get('/authors/{id}/books', $authorController.'::books');
-$app->post('/authors', $authorController.'::create');
-$app->put('/authors/{id}', $authorController.'::update');
-$app->delete('/authors/{id}', $authorController.'::delete');
+$app->get('/authors', $authorController.'::listing')->bind('authors');
+$app->get('/authors/{id}', $authorController.'::get')->bind('author');
+$app->get('/authors/{id}/books', $authorController.'::books')->bind('books');
+$app->post('/authors', $authorController.'::create')->bind('createAuthor');
+$app->put('/authors/{id}', $authorController.'::update')->bind('updateAuthor');
+$app->delete('/authors/{id}', $authorController.'::delete')->bind('deleteAuthor');
 
 $app->get('/books', $bookController.'::inventory');
 $app->get('/books/{id}', $bookController.'::get');

@@ -2,7 +2,7 @@
 
 namespace Api\Controller;
 
-use Silex\Application;
+use Api\App;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,11 +13,11 @@ class Author
 		return 'list of authors';
 	}
 
-	public function get($id, Request $request, Application $app)
+	public function get($id, Request $request, App $app)
 	{
 		if (strpos($request->headers->get('Content-Type'), ';') !== false) {
 			return $app->json(
-				['success' => false],
+				['errors' => ''],
 				Response::HTTP_UNSUPPORTED_MEDIA_TYPE,
 				['Content-Type' => 'application/vnd.api+json']
 			);
@@ -31,7 +31,7 @@ class Author
 					&& strpos($mediaType, ';') !== false
 				) {
 					return $app->json(
-						['success' => false],
+						['errors' => ''],
 						Response::HTTP_NOT_ACCEPTABLE,
 						['Content-Type' => 'application/vnd.api+json']
 					);
@@ -39,8 +39,20 @@ class Author
 			}
 		}
 
+		$response = [
+			'data' => [
+
+			],
+			'links' => [
+				'self' => $app->url('author', ['id' => $id]),
+			],
+			'jsonapi' => [
+				'version' => '1.0'
+			],
+		];
+
 		return $app->json(
-			['success' => true],
+			$response,
 			Response::HTTP_OK,
 			['Content-Type' => 'application/vnd.api+json']
 		);
