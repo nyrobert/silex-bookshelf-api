@@ -41,7 +41,39 @@ class Author
 
 		$response = [
 			'data' => [
-
+				'type'       => 'author',
+				'id'         => $id,
+				'attributes' => [
+					'name' => 'Isaac Asimov'
+				],
+			],
+			'relationships' => [
+				'books' => [
+					'data' => [
+						[
+							'type'       => 'book',
+							'id'         => '1',
+							'attributes' => [
+								'title'       => 'Foundation',
+								'description' => '',
+							],
+							'links' => [
+								'self' => $app->url('book', ['id' => '1']),
+							],
+						],
+						[
+							'type'       => 'book',
+							'id'         => '2',
+							'attributes' => [
+								'title'       => 'Foundation and Empire',
+								'description' => '',
+							],
+							'links' => [
+								'self' => $app->url('book', ['id' => '2']),
+							],
+						],
+					],
+				],
 			],
 			'links' => [
 				'self' => $app->url('author', ['id' => $id]),
@@ -56,11 +88,6 @@ class Author
 			Response::HTTP_OK,
 			['Content-Type' => 'application/vnd.api+json']
 		);
-	}
-
-	public function books($id)
-	{
-
 	}
 
 	public function create()
