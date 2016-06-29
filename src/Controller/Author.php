@@ -8,12 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Author
 {
-	public function listing()
+	public function authors()
 	{
 		return 'list of authors';
 	}
 
-	public function get($id, Request $request, App $app)
+	public function author($id, Request $request, App $app)
 	{
 		if (strpos($request->headers->get('Content-Type'), ';') !== false) {
 			return $app->json(
@@ -73,6 +73,9 @@ class Author
 							],
 						],
 					],
+					'links' => [
+						'self' => $app->url('authorBooks', ['id' => $id]),
+					],
 				],
 			],
 			'links' => [
@@ -88,6 +91,11 @@ class Author
 			Response::HTTP_OK,
 			['Content-Type' => 'application/vnd.api+json']
 		);
+	}
+
+	public function books()
+	{
+
 	}
 
 	public function create()
