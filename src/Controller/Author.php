@@ -51,23 +51,15 @@ class Author
 				'books' => [
 					'data' => [
 						[
-							'type'       => 'book',
-							'id'         => '1',
-							'attributes' => [
-								'title'       => 'Foundation',
-								'description' => '',
-							],
+							'type'  => 'book',
+							'id'    => '1',
 							'links' => [
 								'self' => $app->url('book', ['id' => '1']),
 							],
 						],
 						[
-							'type'       => 'book',
-							'id'         => '2',
-							'attributes' => [
-								'title'       => 'Foundation and Empire',
-								'description' => '',
-							],
+							'type'  => 'book',
+							'id'    => '2',
 							'links' => [
 								'self' => $app->url('book', ['id' => '2']),
 							],
@@ -85,6 +77,19 @@ class Author
 				'version' => '1.0'
 			],
 		];
+
+		$include = $request->query->get('include');
+		if ($include) {
+			if ($include === 'books') {
+				$response['included'] = [];
+			} else {
+				return $app->json(
+					$response,
+					Response::HTTP_BAD_REQUEST,
+					['Content-Type' => 'application/vnd.api+json']
+				);
+			}
+		}
 
 		return $app->json(
 			$response,
