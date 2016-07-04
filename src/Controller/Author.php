@@ -47,6 +47,9 @@ class Author
 					'name' => 'Isaac Asimov'
 				],
 			],
+			'links' => [
+				'self' => $app->url('author', ['id' => $id]),
+			],
 			'relationships' => [
 				'books' => [
 					'data' => [
@@ -70,9 +73,6 @@ class Author
 					],
 				],
 			],
-			'links' => [
-				'self' => $app->url('author', ['id' => $id]),
-			],
 			'jsonapi' => [
 				'version' => '1.0'
 			],
@@ -81,10 +81,33 @@ class Author
 		$include = $request->query->get('include');
 		if ($include) {
 			if ($include === 'books') {
-				$response['included'] = [];
+				$response['included'] = [
+					[
+						'type' => 'book',
+						'id'   => '1',
+						'attributes' => [
+							'title'       => 'Foundation',
+							'description' => 'desc1'
+						],
+						'links' => [
+							'self' => $app->url('book', ['id' => '1']),
+						],
+					],
+					[
+						'type' => 'book',
+						'id'   => '2',
+						'attributes' => [
+							'title'       => 'I Robit',
+							'description' => 'desc2'
+						],
+						'links' => [
+							'self' => $app->url('book', ['id' => '2']),
+						],
+					],
+				];
 			} else {
 				return $app->json(
-					$response,
+					['errors' => ''],
 					Response::HTTP_BAD_REQUEST,
 					['Content-Type' => 'application/vnd.api+json']
 				);
