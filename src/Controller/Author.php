@@ -86,8 +86,9 @@ class Author
 						'type' => 'book',
 						'id'   => '1',
 						'attributes' => [
-							'title'       => 'Foundation',
-							'description' => 'desc1'
+							'title'            => 'Foundation',
+							'publication_date' => '1951-01-01',
+							'description'      => 'desc1'
 						],
 						'links' => [
 							'self' => $app->url('book', ['id' => '1']),
@@ -97,8 +98,9 @@ class Author
 						'type' => 'book',
 						'id'   => '2',
 						'attributes' => [
-							'title'       => 'I Robit',
-							'description' => 'desc2'
+							'title'            => 'I, Robot',
+							'publication_date' => '1950-12-02',
+							'description'      => 'desc2'
 						],
 						'links' => [
 							'self' => $app->url('book', ['id' => '2']),
