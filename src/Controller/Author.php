@@ -109,7 +109,14 @@ class Author
 				];
 			} else {
 				return $app->json(
-					['errors' => ''],
+					[
+						'errors' => [
+							'code'   => '?',
+							'status' => Response::HTTP_BAD_REQUEST,
+							'title'  => '?',
+							'detail' => '?',
+						],
+					],
 					Response::HTTP_BAD_REQUEST,
 					['Content-Type' => 'application/vnd.api+json']
 				);
