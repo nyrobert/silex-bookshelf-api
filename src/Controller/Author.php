@@ -16,11 +16,7 @@ class Author
 	public function author($id, Request $request, App $app)
 	{
 		if (strpos($request->headers->get('Content-Type'), ';') !== false) {
-			return $app->json(
-				['errors' => ''],
-				Response::HTTP_UNSUPPORTED_MEDIA_TYPE,
-				['Content-Type' => 'application/vnd.api+json']
-			);
+			return (new \Api\ErrorResponse())->get('ERR_002', Response::HTTP_UNSUPPORTED_MEDIA_TYPE, 'Invalid media type');
 		}
 
 		$accept = $request->headers->get('Accept');
@@ -30,11 +26,7 @@ class Author
 				if (strpos($mediaType, 'application/vnd.api+json') === 0
 					&& strpos($mediaType, ';') !== false
 				) {
-					return $app->json(
-						['errors' => ''],
-						Response::HTTP_NOT_ACCEPTABLE,
-						['Content-Type' => 'application/vnd.api+json']
-					);
+					return (new \Api\ErrorResponse())->get('ERR_002', Response::HTTP_NOT_ACCEPTABLE, 'Invalid accept');
 				}
 			}
 		}
@@ -108,18 +100,7 @@ class Author
 					],
 				];
 			} else {
-				return $app->json(
-					[
-						'errors' => [
-							'code'   => '?',
-							'status' => Response::HTTP_BAD_REQUEST,
-							'title'  => '?',
-							'detail' => '?',
-						],
-					],
-					Response::HTTP_BAD_REQUEST,
-					['Content-Type' => 'application/vnd.api+json']
-				);
+				return (new \Api\ErrorResponse())->get('ERR_001', Response::HTTP_BAD_REQUEST, 'Invalid include');
 			}
 		}
 

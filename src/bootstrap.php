@@ -2,7 +2,6 @@
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Api\App;
 
 $authorController = 'Api\\Controller\\Author';
 $bookController   = 'Api\\Controller\\Book';
@@ -38,11 +37,7 @@ $app->error(function (\Exception $e, Request $request, $code) use ($app) {
 			$message = 'We are sorry, but something went terribly wrong.';
 	}
 
-	return $app->json(
-		['errors' => Response::$statusTexts[$code]],
-		$code,
-		['Content-Type' => 'application/vnd.api+json']
-	);
+	return (new \Api\ErrorResponse())->get('ERR_004', $code, $message);
 });
 
 return $app;
