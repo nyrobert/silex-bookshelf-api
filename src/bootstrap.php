@@ -1,5 +1,7 @@
 <?php
 
+use Api\Exception;
+use Api\ErrorResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -28,16 +30,24 @@ $app->match('/', function () use ($app) {
 	$app->abort(400, 'HTTP method not implemented.');
 })->method('PUT|OPTION');
 
-$app->error(function (\Exception $e, Request $request, $code) use ($app) {
-	switch ($code) {
+$app->error(function (Exception\Error $e, Request $request, $statusCode) {
+	return (new ErrorResponse())->get(
+		$e->getName(), $statusCode, $e->getMessage()
+	);
+});
+
+$app->error(function (\Exception $e, Request $request, $statusCode) {
+	switch ($statusCode) {
 		case Response::HTTP_NOT_FOUND:
-			$message = 'The requested page could not be found.';
+			$exception = new Exception\ResourceNotFound();
 			break;
 		default:
-			$message = 'We are sorry, but something went terribly wrong.';
+			$exception = new Exception\InternalError();
 	}
 
-	return (new \Api\ErrorResponse())->get('ERR_004', $code, $message);
+	return (new ErrorResponse())->get(
+		$exception->getName(), $exception->getStatusCode(), $exception->getMessage()
+	);
 });
 
 return $app;

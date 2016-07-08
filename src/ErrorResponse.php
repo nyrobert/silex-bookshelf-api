@@ -11,19 +11,19 @@ class ErrorResponse
 
 	private $response = [];
 
-	public function get($code, $status, $title)
+	public function get($code, $statusCode, $title)
 	{
 		$this->response = [
 			'errors' => [
 				'code'   => $code,
-				'status' => (string) $status,
+				'status' => (string) $statusCode,
 				'title'  => $title,
 			],
 		];
 
 		$this->setVersion();
 
-		return new JsonResponse($this->response, $status, ['Content-Type' => self::MEDIA_TYPE]);
+		return new JsonResponse($this->response, $statusCode, ['Content-Type' => self::MEDIA_TYPE]);
 	}
 
 	private function setVersion()

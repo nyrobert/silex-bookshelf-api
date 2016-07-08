@@ -3,6 +3,7 @@
 namespace Api\Controller;
 
 use Api\App;
+use Api\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,7 +17,7 @@ class Author
 	public function author($id, Request $request, App $app)
 	{
 		if (strpos($request->headers->get('Content-Type'), ';') !== false) {
-			return (new \Api\ErrorResponse())->get('ERR_002', Response::HTTP_UNSUPPORTED_MEDIA_TYPE, 'Invalid media type');
+			throw new Exception\UnsupportedMediaTypeParameter();
 		}
 
 		$accept = $request->headers->get('Accept');
@@ -26,7 +27,7 @@ class Author
 				if (strpos($mediaType, 'application/vnd.api+json') === 0
 					&& strpos($mediaType, ';') !== false
 				) {
-					return (new \Api\ErrorResponse())->get('ERR_002', Response::HTTP_NOT_ACCEPTABLE, 'Invalid accept');
+					throw new Exception\UnsupportedMediaTypeParameter(Response::HTTP_NOT_ACCEPTABLE);
 				}
 			}
 		}
@@ -100,7 +101,7 @@ class Author
 					],
 				];
 			} else {
-				return (new \Api\ErrorResponse())->get('ERR_001', Response::HTTP_BAD_REQUEST, 'Invalid include');
+				throw new Exception\UnsupportedQueryParameter();
 			}
 		}
 
