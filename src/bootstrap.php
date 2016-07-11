@@ -2,15 +2,20 @@
 
 use Api\Exception;
 use Api\ErrorResponse;
+use Symfony\Component\Debug\ErrorHandler;
+use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-$authorController = 'Api\\Controller\\Author';
-$bookController   = 'Api\\Controller\\Book';
+ErrorHandler::register();
+ExceptionHandler::register();
 
 $app = new \Api\App();
 $app['controllers']->assert('id', '[0-9a-f\-]+');
 $app['debug'] = true;
+
+$authorController = 'Api\\Controller\\Author';
+$bookController   = 'Api\\Controller\\Book';
 
 $app->get('/authors', $authorController.'::authors')->bind('authors');
 $app->get('/authors/{id}', $authorController.'::author')->bind('author');
