@@ -124,7 +124,7 @@ class Author
 
 	public function update($id)
 	{
-
+		return 'hello';
 	}
 
 	public function delete($id)

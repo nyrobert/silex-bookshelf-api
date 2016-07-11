@@ -26,10 +26,6 @@ $app->put('/books/{id}', $bookController.'::update')->bind('updateBook');
 $app->put('/books/{id}/image', $bookController.'::updateImage')->bind('updateBookImage');
 $app->delete('/books/{id}', $bookController.'::delete')->bind('deleteBook');
 
-$app->match('/', function () use ($app) {
-	$app->abort(400, 'HTTP method not implemented.');
-})->method('PUT|OPTION');
-
 $app->error(function (Exception\Error $e, Request $request, $statusCode) {
 	return (new ErrorResponse())->get(
 		$e->getName(), $statusCode, $e->getMessage()
@@ -40,6 +36,9 @@ $app->error(function (\Exception $e, Request $request, $statusCode) {
 	switch ($statusCode) {
 		case Response::HTTP_NOT_FOUND:
 			$exception = new Exception\ResourceNotFound();
+			break;
+		case Response::HTTP_METHOD_NOT_ALLOWED:
+			$exception = new Exception\UnsupportedHttpVerb();
 			break;
 		default:
 			$exception = new Exception\InternalError();
