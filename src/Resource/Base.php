@@ -2,7 +2,7 @@
 
 namespace Api\Resource;
 
-class Base
+abstract class Base
 {
 	/**
 	 * @var string

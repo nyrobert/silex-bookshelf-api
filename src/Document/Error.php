@@ -4,9 +4,7 @@ namespace Api\Document;
 
 class Error extends Base
 {
-	private $response = [];
-
-	public function get($code, $statusCode, $title)
+	public function generate($code, $statusCode, $title)
 	{
 		$this->response = [
 			'errors' => [
@@ -18,6 +16,6 @@ class Error extends Base
 
 		$this->setVersion();
 
-		return new JsonResponse($this->response, $statusCode, ['Content-Type' => self::MEDIA_TYPE]);
+		return $this->response;
 	}
 }

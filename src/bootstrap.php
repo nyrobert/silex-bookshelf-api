@@ -1,7 +1,8 @@
 <?php
 
 use Api\Exception;
-use Api\ErrorResponse;
+use Api\Response as ApiResponse;
+use Api\Document\Error;
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,8 +33,8 @@ $app->put('/books/{id}/image', $bookController.'::updateImage')->bind('updateBoo
 $app->delete('/books/{id}', $bookController.'::delete')->bind('deleteBook');
 
 $app->error(function (Exception\Error $e, Request $request, $statusCode) {
-	return (new ErrorResponse())->get(
-		$e->getName(), $statusCode, $e->getMessage()
+	return (new ApiResponse())->get(
+		(new Error())->generate($e->getName(), $statusCode, $e->getMessage()), $statusCode
 	);
 });
 
@@ -49,8 +50,8 @@ $app->error(function (\Exception $e, Request $request, $statusCode) {
 			$exception = new Exception\InternalError();
 	}
 
-	return (new ErrorResponse())->get(
-		$exception->getName(), $exception->getStatusCode(), $exception->getMessage()
+	return (new ApiResponse())->get(
+		(new Error())->generate($exception->getName(), $exception->getStatusCode(), $e->getMessage()), $exception->getStatusCode()
 	);
 });
 
