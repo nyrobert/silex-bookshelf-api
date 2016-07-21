@@ -16,6 +16,6 @@ abstract class Base
 			]
 		];
 
-		array_merge($this->response, $data);
+		$this->response = array_merge($this->response, $data);
 	}
 }

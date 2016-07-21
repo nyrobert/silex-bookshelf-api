@@ -8,8 +8,8 @@ use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-ErrorHandler::register();
-ExceptionHandler::register();
+//ErrorHandler::register();
+//ExceptionHandler::register();
 
 $app = new \Api\App();
 $app['controllers']->assert('id', '[0-9a-f\-]+');
