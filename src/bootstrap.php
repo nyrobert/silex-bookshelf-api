@@ -1,15 +1,14 @@
 <?php
 
 use Api\Exception;
-use Api\Response as ApiResponse;
-use Api\Document\Error;
+use Api\ResponseFactory;
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-//ErrorHandler::register();
-//ExceptionHandler::register();
+ErrorHandler::register();
+ExceptionHandler::register();
 
 $app = new \Api\App();
 $app['controllers']->assert('id', '[0-9a-f\-]+');
@@ -33,9 +32,7 @@ $app->put('/books/{id}/image', $bookController.'::updateImage')->bind('updateBoo
 $app->delete('/books/{id}', $bookController.'::delete')->bind('deleteBook');
 
 $app->error(function (Exception\Error $e, Request $request, $statusCode) {
-	return (new ApiResponse())->get(
-		(new Error())->generate($e->getName(), $statusCode, $e->getMessage()), $statusCode
-	);
+	return ResponseFactory::createError($e, $statusCode);
 });
 
 $app->error(function (\Exception $e, Request $request, $statusCode) {
@@ -50,9 +47,7 @@ $app->error(function (\Exception $e, Request $request, $statusCode) {
 			$exception = new Exception\InternalError();
 	}
 
-	return (new ApiResponse())->get(
-		(new Error())->generate($exception->getName(), $exception->getStatusCode(), $e->getMessage()), $exception->getStatusCode()
-	);
+	return ResponseFactory::createError($exception, $exception->getStatusCode());
 });
 
 return $app;
