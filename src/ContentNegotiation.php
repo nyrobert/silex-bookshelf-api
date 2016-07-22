@@ -15,18 +15,20 @@ class ContentNegotiation
 
 	private function validateContentTypeHeader(Request $request)
 	{
-		if (strpos($request->headers->get('Content-Type'), ';') !== false) {
-			throw new Exception\UnsupportedMediaTypeParameter();
+		if ($request->getContent()) {
+			if ($request->headers->get('Content-Type') !== App::MEDIA_TYPE) {
+				throw new Exception\UnsupportedMediaTypeParameter();
+			}
 		}
 	}
 
 	private function validateAcceptHeader(Request $request)
 	{
 		$accept = $request->headers->get('Accept');
-		if (strpos($accept, 'application/vnd.api+json') !== false) {
+		if (strpos($accept, App::MEDIA_TYPE) !== false) {
 			$mediaTypes = explode(',', $accept);
 			foreach ($mediaTypes as $mediaType) {
-				if (strpos($mediaType, 'application/vnd.api+json') === 0
+				if (strpos($mediaType, App::MEDIA_TYPE) === 0
 					&& strpos($mediaType, ';') !== false
 				) {
 					throw new Exception\UnsupportedMediaTypeParameter(Response::HTTP_NOT_ACCEPTABLE);
