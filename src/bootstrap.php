@@ -2,13 +2,14 @@
 
 use Api\Exception;
 use Api\ResponseFactory;
+use Api\ContentNegotiation;
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-ErrorHandler::register();
-ExceptionHandler::register();
+//ErrorHandler::register();
+//ExceptionHandler::register();
 
 $app = new \Api\App();
 $app['controllers']->assert('id', '[0-9a-f\-]+');
@@ -30,6 +31,10 @@ $app->post('/books', $bookController.'::create')->bind('createBook');
 $app->put('/books/{id}', $bookController.'::update')->bind('updateBook');
 $app->put('/books/{id}/image', $bookController.'::updateImage')->bind('updateBookImage');
 $app->delete('/books/{id}', $bookController.'::delete')->bind('deleteBook');
+
+$app->before(function (Request $request) {
+	(new ContentNegotiation())->validate($request);
+});
 
 $app->error(function (Exception\Error $e, Request $request, $statusCode) {
 	return ResponseFactory::createError($e, $statusCode);

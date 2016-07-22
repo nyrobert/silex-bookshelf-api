@@ -16,22 +16,6 @@ class Author
 
 	public function author($id, Request $request, App $app)
 	{
-		if (strpos($request->headers->get('Content-Type'), ';') !== false) {
-			throw new Exception\UnsupportedMediaTypeParameter();
-		}
-
-		$accept = $request->headers->get('Accept');
-		if (strpos($accept, 'application/vnd.api+json') !== false) {
-			$mediaTypes = explode(',', $accept);
-			foreach ($mediaTypes as $mediaType) {
-				if (strpos($mediaType, 'application/vnd.api+json') === 0
-					&& strpos($mediaType, ';') !== false
-				) {
-					throw new Exception\UnsupportedMediaTypeParameter(Response::HTTP_NOT_ACCEPTABLE);
-				}
-			}
-		}
-
 		$response = [
 			'data' => [
 				'type'       => 'author',
