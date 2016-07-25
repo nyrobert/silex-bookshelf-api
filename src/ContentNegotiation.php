@@ -3,7 +3,6 @@
 namespace Api;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class ContentNegotiation
 {
@@ -17,7 +16,7 @@ class ContentNegotiation
 	{
 		if ($request->getContent()) {
 			if ($request->headers->get('Content-Type') !== App::MEDIA_TYPE) {
-				throw new Exception\UnsupportedMediaTypeParameter();
+				throw new Exception\UnsupportedMediaType();
 			}
 		}
 	}
@@ -28,10 +27,8 @@ class ContentNegotiation
 		if (strpos($accept, App::MEDIA_TYPE) !== false) {
 			$mediaTypes = explode(',', $accept);
 			foreach ($mediaTypes as $mediaType) {
-				if (strpos($mediaType, App::MEDIA_TYPE) === 0
-					&& strpos($mediaType, ';') !== false
-				) {
-					throw new Exception\UnsupportedMediaTypeParameter(Response::HTTP_NOT_ACCEPTABLE);
+				if (strpos($mediaType, App::MEDIA_TYPE) === 0 && strpos($mediaType, ';') !== false) {
+					throw new Exception\UnsupportedMediaTypeParameter();
 				}
 			}
 		}

@@ -6,10 +6,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UnsupportedMediaTypeParameter extends Error
 {
-	public function __construct($statusCode = Response::HTTP_UNSUPPORTED_MEDIA_TYPE)
+	public function __construct()
 	{
 		parent::__construct(
-			$statusCode,
+			Response::HTTP_NOT_ACCEPTABLE,
 			'JSON API media type is modified with media type parameters.'
 		);
 	}
