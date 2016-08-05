@@ -3,3 +3,4 @@ Thumbs.db
 composer.phar
 /.idea
 /vendor
+/tests/_output/*
