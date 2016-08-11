@@ -2,6 +2,8 @@ class_name: ApiTester
 modules:
     enabled:
         - REST:
-            url: http://192.168.33.10/silex-bookshelf-api/
+            url: http://192.168.33.10/silex-bookshelf-api
             depends: PhpBrowser
             part: Json
+        - \Helper\Api
+error_level: E_ALL
