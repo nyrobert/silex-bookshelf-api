@@ -4,7 +4,7 @@ namespace Api\Exception;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class Error extends HttpException
+abstract class Error extends HttpException
 {
 	public function getName()
 	{
