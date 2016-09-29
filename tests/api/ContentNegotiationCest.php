@@ -14,15 +14,15 @@ class ContentNegotiationCest
 	public function validAcceptHeader(ApiTester $I)
 	{
 		$I->haveHttpHeader('Accept', App::MEDIA_TYPE);
-		$I->sendGET('/authors/'.self::AUTHOR_ID);
+		$I->sendGET('/authors/' . self::AUTHOR_ID);
 		$I->seeResponseCodeIs(HttpCode::OK);
 		$I->seeResponseIsJson();
 	}
 
-	public function invalidAcceptHeader(ApiTester $I)
+	public function invalidAcceptHeaderWithParam(ApiTester $I)
 	{
-		$I->haveHttpHeader('Accept', App::MEDIA_TYPE.';param=1');
-		$I->sendGET('/authors/'.self::AUTHOR_ID);
+		$I->haveHttpHeader('Accept', App::MEDIA_TYPE . ';param=1');
+		$I->sendGET('/authors/' . self::AUTHOR_ID);
 		$I->seeResponseCodeIs(HttpCode::NOT_ACCEPTABLE);
 		$I->seeResponseIsJson();
 		$I->seeResponseContainsJson(['errors' => [
