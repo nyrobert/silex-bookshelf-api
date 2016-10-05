@@ -16,19 +16,19 @@ $app['debug'] = true;
 $authorController = 'Api\\Controller\\Author';
 $bookController   = 'Api\\Controller\\Book';
 
-$app->get('/authors', $authorController.'::authors')->bind('authors');
-$app->get('/authors/{id}', $authorController.'::author')->bind('author');
-$app->get('/authors/{id}/books', $authorController.'::books')->bind('authorBooks');
-$app->post('/authors', $authorController.'::create')->bind('createAuthor');
-$app->put('/authors/{id}', $authorController.'::update')->bind('updateAuthor');
-$app->delete('/authors/{id}', $authorController.'::delete')->bind('deleteAuthor');
+$app->get('/authors', $authorController . '::authors')->bind('authors');
+$app->get('/authors/{id}', $authorController . '::author')->bind('author');
+$app->get('/authors/{id}/books', $authorController . '::books')->bind('authorBooks');
+$app->post('/authors', $authorController . '::create')->bind('createAuthor');
+$app->put('/authors/{id}', $authorController . '::update')->bind('updateAuthor');
+$app->delete('/authors/{id}', $authorController . '::delete')->bind('deleteAuthor');
 
-$app->get('/books', $bookController.'::books')->bind('books');
-$app->get('/books/{id}', $bookController.'::book')->bind('book');
-$app->post('/books', $bookController.'::create')->bind('createBook');
-$app->put('/books/{id}', $bookController.'::update')->bind('updateBook');
-$app->put('/books/{id}/image', $bookController.'::updateImage')->bind('updateBookImage');
-$app->delete('/books/{id}', $bookController.'::delete')->bind('deleteBook');
+$app->get('/books', $bookController . '::books')->bind('books');
+$app->get('/books/{id}', $bookController . '::book')->bind('book');
+$app->post('/books', $bookController . '::create')->bind('createBook');
+$app->put('/books/{id}', $bookController . '::update')->bind('updateBook');
+$app->put('/books/{id}/image', $bookController . '::updateImage')->bind('updateBookImage');
+$app->delete('/books/{id}', $bookController . '::delete')->bind('deleteBook');
 
 $app->before(function (Request $request) {
 	(new ContentNegotiation())->validate($request);
